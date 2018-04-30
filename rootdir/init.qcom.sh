@@ -352,23 +352,23 @@ else
     prev_version_info=""
 fi
 
-cur_version_info=`cat /firmware/verinfo/ver_info.txt`
-if [ ! -f /firmware/verinfo/ver_info.txt -o "$prev_version_info" != "$cur_version_info" ]; then
+cur_version_info=`cat /vendor/firmware_mnt/verinfo/ver_info.txt`
+if [ ! -f /vendor/firmware_mnt/verinfo/ver_info.txt -o "$prev_version_info" != "$cur_version_info" ]; then
     # add W for group recursively before delete
     chmod g+w -R /data/vendor/modem_config/*
     rm -rf /data/vendor/modem_config/*
     # preserve the read only mode for all subdir and files
-    cp --preserve=m -dr /firmware/image/modem_pr/mcfg/configs/* /data/vendor/modem_config
-    cp --preserve=m -d /firmware/verinfo/ver_info.txt /data/vendor/modem_config/
-    cp --preserve=m -d /firmware/image/modem_pr/mbn_ota.txt /data/vendor/modem_config/
+    cp --preserve=m -dr /vendor/firmware_mnt/image/modem_pr/mcfg/configs/* /data/vendor/modem_config
+    cp --preserve=m -d /vendor/firmware_mnt/verinfo/ver_info.txt /data/vendor/modem_config/
+    cp --preserve=m -d /vendor/firmware_mnt/image/modem_pr/mbn_ota.txt /data/vendor/modem_config/
     # the group must be root, otherwise this script could not add "W" for group recursively
     chown -hR radio.root /data/vendor/modem_config/*
 fi
 chmod g-w /data/vendor/modem_config
 # this is for tissot peel_ir node and mbn_ota
-cp /firmware/image/modem_pr/mbn_oin.txt /data/misc/radio/modem_config
+cp /vendor/firmware_mnt/image/modem_pr/mbn_oin.txt /data/misc/radio/modem_config
 chown radio.radio /data/misc/radio/modem_config/mbn_oin.txt
-cp /firmware/image/modem_pr/mbn_ogl.txt /data/misc/radio/modem_config
+cp /vendor/firmware_mnt/image/modem_pr/mbn_ogl.txt /data/misc/radio/modem_config
 chown radio.radio /data/misc/radio/modem_config/mbn_ogl.txt
 setprop ro.vendor.ril.mbn_copy_completed 1
 
