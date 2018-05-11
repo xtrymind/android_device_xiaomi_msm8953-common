@@ -33,8 +33,10 @@ on fs
     mount_all /vendor/etc/fstab.qcom
     swapon_all /vendor/etc/fstab.qcom
 
-    mkdir /persist/data 0700 system system
-    mkdir /persist/bms 0700 root system
+    chown root system /mnt/vendor/persist
+    chmod 0771 /mnt/vendor/persist
+    mkdir /mnt/vendor/persist/data 0700 system system
+    mkdir /mnt/vendor/persist/bms 0700 root system
     mkdir /persist/rfs 0770 root system
     mkdir /persist/hlos_rfs 0770 root system
     chmod 0770 /persist/rfs
@@ -55,6 +57,7 @@ on fs
     chmod 0770 /persist/rfs/apq/gnss
     chmod 0770 /persist/hlos_rfs
     restorecon_recursive /persist
+    restorecon_recursive /mnt/vendor/persist
 
 on init
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
