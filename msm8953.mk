@@ -388,12 +388,12 @@ PRODUCT_COPY_FILES += \
 # Wifi
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
+    hostapd \
+    hostapd_cli \
     libcld80211 \
     libqsap_sdk \
     libQWiFiSoftApCfg \
     libwpa_client \
-    hostapd \
-    dhcpcd.conf \
     wcnss_service \
     wificond \
     wpa_supplicant \
