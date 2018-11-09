@@ -74,7 +74,7 @@ sed -i "s|\/data\/vendor\/misc\/audio\/acdbdata\/delta\/|\/data\/vendor\/audio\/
 
 if [ "$DEVICE" = "mido" ]; then
     # Hax for cam configs
-    sed -i "s|/system/etc/camera/|/vendor/etc/camera/|g" $COMMON_BLOB_ROOT/vendor/lib/libmmcamera2_sensor_modules.so
+    sed -i "s|/system/etc/camera/|/vendor/etc/camera/|g" $DEVICE_BLOB_ROOT/vendor/lib/libmmcamera2_sensor_modules.so
 
 fi
 
