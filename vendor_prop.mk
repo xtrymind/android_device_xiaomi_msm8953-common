@@ -97,15 +97,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.latch_unsignaled=1 \
     debug.sf.recomputecrop=0 \
     dev.pm.dyn_samplingrate=1 \
-    persist.debug.wfd.enable=1 \
     persist.demo.hdmirotationlock=false \
-    persist.hwc.enable_vds=1 \
     persist.hwc.mdpcomp.enable=true \
     ro.opengles.version=196610 \
     ro.qualcomm.cabl=0 \
     ro.sf.lcd_density=440 \
+    ro.vendor.display.cabl=0 \
     sdm.debug.disable_skip_validate=1 \
-    sdm.debug.rotator_downscale=1 \
     vendor.display.disable_skip_validate=1 \
     vendor.display.perf_hint_window=50 \
     vendor.gralloc.enable_fb_ubwc=1
@@ -239,6 +237,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Usb
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config.extra=none
+
+# Wfd
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.debug.wfd.enable=1 \
+    persist.hwc.enable_vds=1
 
 # Wifi
 PRODUCT_PROPERTY_OVERRIDES += \
