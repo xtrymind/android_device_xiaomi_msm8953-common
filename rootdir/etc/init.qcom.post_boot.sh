@@ -32,22 +32,11 @@ function 8953_sched_dcvs_eas()
     #governor settings
     echo 1 > /sys/devices/system/cpu/cpu0/online
     echo "schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    echo 500 > /sys/devices/system/cpu/cpufreq/schedutil/up_rate_limit_us
-    echo 20000 > /sys/devices/system/cpu/cpufreq/schedutil/down_rate_limit_us
-    echo 0 > /sys/devices/system/cpu/cpufreq/schedutil/iowait_boost_enable
-
-    # Enable input boost configuration
-    echo "0:1036800" > /sys/module/cpu_boost/parameters/input_boost_freq
-    echo 1 > /sys/module/cpu_boost/parameters/dynamic_stune_boost
-    echo 150 > /sys/module/cpu_boost/parameters/input_boost_ms
-
-    # set default schedTune value for foreground/top-app (only affects EAS)
-    echo 1 > /dev/stune/foreground/schedtune.prefer_idle
-    echo 1 > /dev/stune/top-app/schedtune.prefer_idle
-    echo 0 > /dev/stune/top-app/schedtune.boost
-    echo 0 > /dev/stune/top-app/schedtune.sched_boost
-    echo 1 > /dev/stune/rt/schedtune.prefer_idle
-    echo 10 > /dev/stune/rt/schedtune.boost
+    echo 0 > /sys/devices/system/cpu/cpufreq/schedutil/rate_limit_us
+    #set the hispeed_freq
+    echo 1401600 > /sys/devices/system/cpu/cpufreq/schedutil/hispeed_freq
+    #default value for hispeed_load is 90, for 8953 and sdm450 it should be 85
+    echo 85 > /sys/devices/system/cpu/cpufreq/schedutil/hispeed_load
 }
 
 function 8917_sched_dcvs_eas()
@@ -107,17 +96,17 @@ function 8953_sched_dcvs_hmp()
     #governor settings
     echo 1 > /sys/devices/system/cpu/cpu0/online
     echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    echo "40000 1401600:80000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    echo 80 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    echo "19000 1401600:39000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    echo 85 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
     echo 20000 > /sys/devices/system/cpu/cpufreq/interactive/timer_rate
     echo 1401600 > /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
     echo 0 > /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    echo "50 652800:65 1036800:75 1401600:80 1689600:90" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
-    echo 20000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    echo "85 1401600:80" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
+    echo 39000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
     echo 40000 > /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
     echo 19 > /proc/sys/kernel/sched_upmigrate_min_nice
     # Enable sched guided freq control
-    echo 0 > /sys/devices/system/cpu/cpufreq/interactive/use_sched_load
+    echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_sched_load
     echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif
     echo 200000 > /proc/sys/kernel/sched_freq_inc_notify
     echo 200000 > /proc/sys/kernel/sched_freq_dec_notify
@@ -1760,15 +1749,17 @@ case "$target" in
                     echo -n enable > $mode
                 done
 
-                #if the kernel have schedutil,use the schedutil governor
-                EnergyAware=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors | grep schedutil`
-                if [[ -n $EnergyAware ]]; then
+                #if the kernel version >=4.9,use the schedutil governor
+                KernelVersionStr=`cat /proc/sys/kernel/osrelease`
+                KernelVersionS=${KernelVersionStr:2:2}
+                KernelVersionA=${KernelVersionStr:0:1}
+                KernelVersionB=${KernelVersionS%.*}
+                if [ $KernelVersionA -ge 4 ] && [ $KernelVersionB -ge 9 ]; then
                     8953_sched_dcvs_eas
                 else
                     8953_sched_dcvs_hmp
                 fi
-
-                echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+                echo 652800 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
                 # Bring up all cores online
                 echo 1 > /sys/devices/system/cpu/cpu1/online
