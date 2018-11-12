@@ -122,10 +122,10 @@ on boot
     chmod 2770 /dev/socket/qmux_gps
 
     mkdir /persist/drm 0770 system system
-    mkdir /persist/bluetooth 0770 bluetooth bluetooth
+    mkdir /mnt/vendor/persist/bluetooth 0770 bluetooth bluetooth
     mkdir /persist/misc 0770 system system
-    mkdir /persist/alarm 0770 system system
-    mkdir /persist/time 0770 system system
+    mkdir /mnt/vendor/persist/alarm 0770 system system
+    mkdir /mnt/vendor/persist/time 0770 system system
     restorecon_recursive /persist
 
     #Create NETMGR daemon socket area
@@ -294,7 +294,7 @@ on post-fs-data
     # We chown/chmod /persist again so because mount is run as root + defaults
     chown root system /persist
     chmod 0771 /persist
-    chown system system /persist/WCNSS_qcom_wlan_nv.bin
+    chown system system /mnt/vendor/persist/WCNSS_qcom_wlan_nv.bin
     chmod 0664 /sys/devices/platform/msm_sdcc.1/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.2/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.3/polling
@@ -385,6 +385,13 @@ on post-fs-data
     chmod 0664 /persist/sensors/sensors_settings
     chown system root /persist/sensors/sensors_settings
     mkdir /persist/sensors/registry/registry
+
+    # Sensors
+    chmod 0775 /mnt/vendor/persist/sensors
+    chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
+    chown system root /mnt/vendor/persist/sensors/sensors_settings
+    mkdir /mnt/vendor/persist/sensors/registry/registry
+
     mkdir /data/misc/sensors
     chmod 0775 /data/misc/sensors
 
