@@ -11,6 +11,10 @@
 /data/gf_data(/.*)?                             u:object_r:gx_fpd_data_file:s0
 /persist/data/gxfp(/.*)?			u:object_r:gx_fpd_data_file:s0
 
+# Rfs
+/data/vendor/rfs/mpss(/.*)?            u:object_r:mpss_rfs_data_file:s0
+/data/vendor/tombstones/rfs(/.*)?      u:object_r:rfs_tombstone_data_file:s0
+
 # Rild
 /(vendor|system/vendor)/radio/qcril_database/qcril.db			u:object_r:rild_file:s0
 
