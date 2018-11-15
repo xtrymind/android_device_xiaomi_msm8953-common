@@ -37,27 +37,25 @@ on fs
     chmod 0771 /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
     mkdir /mnt/vendor/persist/bms 0700 root system
+    restorecon_recursive /mnt/vendor/persist
+
     mkdir /persist/rfs 0770 root system
     mkdir /persist/hlos_rfs 0770 root system
     chmod 0770 /persist/rfs
     chmod 0770 /persist/rfs/shared
     chmod 0770 /persist/rfs/msm
     chmod 0770 /persist/rfs/msm/adsp
-    chown system system /persist/rfs/msm/adsp
     chmod 0770 /persist/rfs/msm/mpss
-    chown system system /persist/rfs/msm/mpss
+    chmod 0770 /persist/rfs/msm/slpi
     chmod 0770 /persist/rfs/mdm
     chmod 0770 /persist/rfs/mdm/adsp
-    chown system system /persist/rfs/mdm/adsp
     chmod 0770 /persist/rfs/mdm/mpss
-    chown system system /persist/rfs/mdm/mpss
-    chmod 0770 /persist/rfs/mdm/sparrow
-    chown system system /persist/rfs/mdm/sparrow
+    chmod 0770 /persist/rfs/mdm/slpi
+    chmod 0770 /persist/rfs/mdm/tn
     chmod 0770 /persist/rfs/apq
     chmod 0770 /persist/rfs/apq/gnss
     chmod 0770 /persist/hlos_rfs
     restorecon_recursive /persist
-    restorecon_recursive /mnt/vendor/persist
 
 on init
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
