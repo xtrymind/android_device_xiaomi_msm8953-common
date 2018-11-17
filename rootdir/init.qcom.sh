@@ -352,6 +352,7 @@ else
     prev_version_info=""
 fi
 
+product_device=`getprop ro.product.device`
 cur_version_info=`cat /vendor/firmware_mnt/verinfo/ver_info.txt`
 if [ ! -f /vendor/firmware_mnt/verinfo/ver_info.txt -o "$prev_version_info" != "$cur_version_info" ]; then
     # add W for group recursively before delete
@@ -365,11 +366,13 @@ if [ ! -f /vendor/firmware_mnt/verinfo/ver_info.txt -o "$prev_version_info" != "
     chown -hR radio.root /data/vendor/modem_config/*
 fi
 chmod g-w /data/vendor/modem_config
-# this is for tissot peel_ir node and mbn_ota
-cp /vendor/firmware_mnt/image/modem_pr/mbn_oin.txt /data/misc/radio/modem_config
-chown radio.radio /data/misc/radio/modem_config/mbn_oin.txt
-cp /vendor/firmware_mnt/image/modem_pr/mbn_ogl.txt /data/misc/radio/modem_config
-chown radio.radio /data/misc/radio/modem_config/mbn_ogl.txt
+if [ "$product_device" == "tissot" ]; then
+    # this is for tissot peel_ir node and mbn_ota
+    cp /vendor/firmware_mnt/image/modem_pr/mbn_oin.txt /data/misc/radio/modem_config
+    chown radio.radio /data/misc/radio/modem_config/mbn_oin.txt
+    cp /vendor/firmware_mnt/image/modem_pr/mbn_ogl.txt /data/misc/radio/modem_config
+    chown radio.radio /data/misc/radio/modem_config/mbn_ogl.txt
+fi
 setprop ro.vendor.ril.mbn_copy_completed 1
 
 #check build variant for printk logging
