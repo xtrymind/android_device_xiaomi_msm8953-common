@@ -29,8 +29,8 @@
 #
 #
 
-userdata=`cat /proc/mounts | grep -E '/data.*f2fs' | awk '{print $3}'`
-if [ "$userdata" == "f2fs" ]; then
+userdata=`cat /proc/mounts | grep -E '/data.*f2fs'`
+if [ -n "$userdata" ]; then
     setprop debug.sqlite.journalmode OFF
     setprop debug.sqlite.syncmode OFF
 fi
