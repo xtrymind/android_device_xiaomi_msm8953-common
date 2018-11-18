@@ -1,6 +1,9 @@
 # Data files
 /data/connectivity(/.*)?              u:object_r:cnd_data_file:s0
 
+# Init
+/(vendor|system/vendor)/bin/init\.fs\.sh              u:object_r:qti_init_shell_exec:s0
+
 # Fpc Fingerprint
 /data/fpc(/.*)?					u:object_r:fpc_data_file:s0
 /dev/socket/fpce(/.*)?				u:object_r:fpce_socket:s0
