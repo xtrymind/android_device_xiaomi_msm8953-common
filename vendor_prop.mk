@@ -139,7 +139,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hwui.text_large_cache_width=2048 \
     ro.hwui.text_large_cache_height=1024
 
-#LKMD
+ifeq ($(TARGET_LMKD_STATS_LOG), true)
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.lmk.low=1001 \
     ro.lmk.medium=800 \
@@ -149,7 +149,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.lmk.downgrade_pressure=100 \
     ro.lmk.kill_heaviest_task=true \
     ro.lmk.kill_timeout_ms=100 \
-    ro.lmk.use_minfree_levels=true
+    ro.lmk.use_minfree_levels=true \
+    ro.lmk.log_stats=true
+endif
 
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
