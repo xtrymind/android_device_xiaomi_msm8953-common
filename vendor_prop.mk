@@ -222,7 +222,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.default_network=22,20 \
     service.qti.ims.enabled=1 \
-    telephony.lteOnCdmaDevice=1
+    telephony.lteOnCdmaDevice=1 \
+    vendor.rild.libpath=/vendor/lib64/libril-qc-qmi-1.so
 
 # Time Services
 PRODUCT_PROPERTY_OVERRIDES += \
